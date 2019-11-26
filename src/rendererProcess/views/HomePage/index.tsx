@@ -1,9 +1,10 @@
 import React from 'react';
+import styles from './index.module.scss';
 
 const App: React.FC = () => {
   return (
-    <div className="container">
-      大发大东方阿道夫阿斯蒂芬阿斯蒂芬阿斯蒂芬安防打算sad
+    <div className={styles.container}>
+      我是首页啊
     </div>
   );
 }

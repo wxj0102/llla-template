@@ -1,5 +1,5 @@
 import React from 'react';
-import './common.css';
+import './common.scss';
 import HomePage from './views/HomePage';
 
 const App: React.FC = () => {
