@@ -4,36 +4,30 @@ import styles from './index.module.scss';
 import { Menu } from 'antd';
 
 import HomePage from '../../views/HomePage';
+import Work from '../../views/Work';
 
 export const config = [{
   path: '/',
+  exact: true,
   component: HomePage,
   name: '首页',
 },{
-  path: '/aaa',
-  component: HomePage,
-  name: '首页1',
-},{
-  path: '/aaaa',
-  component: HomePage,
-  name: '首页2',
-},{
-  path: '/aaaaaa',
-  component: HomePage,
-  name: '首页3',
+  path: '/work',
+  component: Work,
+  name: '任务管理',
 }]
 
 const App: React.FC = (props: any) => {
 
   function hitstoryChange (item: any) {
-    props.history.push(item.path)
-    console.log(window.location);
+    props.history.push(item.key)
   }
+  const pathName = props.location.pathname;
   return (
     <div className={styles.container}>
-      <Menu onClick={hitstoryChange} mode="horizontal">{
+      <Menu onSelect={hitstoryChange} selectedKeys={[pathName]} mode="horizontal">{
         config.map((v:any, i: number) => {
-        return <Menu.Item key={i}>{v.name}</Menu.Item>
+        return <Menu.Item key={v.path}>{v.name}</Menu.Item>
         })
       }</Menu>
     </div>

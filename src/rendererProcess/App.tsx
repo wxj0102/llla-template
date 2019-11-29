@@ -5,17 +5,18 @@ import Header, { config } from './components/Header';
 
 const App: React.FC = () => {
   return (
-    <div className="app-container">
-      <Router>
+    <Router>
+      <div className="app-container">
         <Header></Header>
         <Switch>{
           config.map((v, index: number) => {
-            return <Route key={index} path={v.path} component={v.component}></Route>
+            return <Route key={v.path} exact={v.exact || false} path={v.path}>
+              <v.component></v.component>
+            </Route>
           })
-        }
-        </Switch>
-      </Router>
-    </div>
+        }</Switch>
+      </div>
+    </Router>
   );
 }
 
