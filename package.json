@@ -2,7 +2,7 @@
   "name": "temp1",
   "version": "0.1.0",
   "private": true,
-  "main": "dist/main.js",
+  "main": "dist/mainProcess/main.js",
   "dependencies": {
     "@babel/core": "7.6.0",
     "@svgr/webpack": "4.3.2",
@@ -76,7 +76,7 @@
   "scripts": {
     "start": "concurrently \"yarn start:react\" \"yarn start:electron\"",
     "start:react": "BROWSER=none node scripts/start.js",
-    "start:electron": "tsc src/mainProcess/main.ts --outDir dist && wait-on http://localhost:3000 && electron .",
+    "start:electron": "tsc src/mainProcess/main.ts --outDir dist && wait-on http://localhost:3000 && node scripts/preload.js && electron .",
     "build": "node scripts/build.js",
     "test": "node scripts/test.js"
   },

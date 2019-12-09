@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { ipcRenderer } from '../../electron';
+// import { ipcRenderer } from 'electron';
 import { Button } from 'antd';
 import styles from './index.module.scss';
 
@@ -12,7 +13,7 @@ const App: React.FC = () => {
 
   useEffect(() => {
     // 这里去获取数据
-    ipcRenderer.invoke('getWorkList').then((res: object) => {
+    ipcRenderer.invoke('work').then((res: object) => {
       console.log(res);
     }).catch((error: any) => {
       console.log(error);
