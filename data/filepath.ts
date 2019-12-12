@@ -1,1 +1,1 @@
-export const worklistPath = '/data/worklist.json';
+export const worklistPath = 'data/worklist.json';

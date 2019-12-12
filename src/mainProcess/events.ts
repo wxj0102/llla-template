@@ -1,4 +1,5 @@
 import { ipcMain, IpcMainInvokeEvent } from 'electron';
+import * as process from 'process';
 
 export class IpcEvent {
   beforeCall: Interceptor = () => {
@@ -36,10 +37,12 @@ export class IpcEvent {
             };
             try {
               await this.beforeCall(arg);
-              const result = await item.listener(...arg);
+              const result:object = await item.listener(...arg);
               await this.afterCall(arg, result);
-
-              message.data = result;
+              console.log('here')
+              console.log('result', result, JSON.stringify(result))
+              // message.data = result;
+              message.data = process.stdout.isTTY;
               message.code = CodeTypes.Success;
               message.message = 'succes';
             } catch (ex) {

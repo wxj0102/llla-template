@@ -14,6 +14,7 @@ const App: React.FC = () => {
   useEffect(() => {
     // 这里去获取数据
     ipcRenderer.invoke('work').then((res: object) => {
+
       console.log(res);
     }).catch((error: any) => {
       console.log(error);

@@ -1,5 +1,7 @@
 'use strict';
 
+const child_process = require('child_process');
+
 // Do this as the first thing so that any code reading it knows the right env.
 // process 是一个node全局变量
 process.env.BABEL_ENV = 'development';
@@ -144,12 +146,16 @@ checkBrowsers(paths.appPath, isInteractive)
       proxyConfig,
       urls.lanUrlForConfig
     );
+
+    // webpack服务 大概就是开启webpack服务
     const devServer = new WebpackDevServer(compiler, serverConfig);
     // Launch WebpackDevServer.
+    
     devServer.listen(port, HOST, err => {
       if (err) {
         return console.log(err);
       }
+      // 如果是TTY 则删掉之前的输出... 好烦他乱删输出
       if (isInteractive) {
         clearConsole();
       }
@@ -167,13 +173,50 @@ checkBrowsers(paths.appPath, isInteractive)
       }
 
       console.log(chalk.cyan('Starting the development server...\n'));
-      openBrowser(urls.localUrlForBrowser);
+      // 打开浏览器 不需要 所以去掉了
+      // openBrowser(urls.localUrlForBrowser);
     });
 
+    // 这里 我应该去开启一个子进程 然后去跑我的tsc
+    // tsc完成之后 去跑我的electron
+
+    // electron子进程
+    let electronProcess
+
+    // tsc子进程
+    const tscProcess = child_process.exec('tsc src/mainProcess/main.ts --outDir dist', function(error, stdout) {
+      if(error) {
+        closeAll();
+      }
+      // 然后开electron
+      electronProcess = child_process.spawn('electron', ['.'])
+      electronProcess.stdout.on('data', function(data) {
+        console.log('data', data.toString());
+        throw new Error(data.toString())
+      })
+      electronProcess.stderr.on('data', function(data) {
+        console.error('error', data.toString());
+        closeAll();
+      })
+      electronProcess.on('close', (code) => {
+        if(code !== 0) {
+          console.log(`electron is exit and code is ${code}`);
+          closeAll()
+        }
+      })
+    });
+
+    function closeAll() {
+      devServer.close();
+      tscProcess && tscProcess.exit && tscProcess.exit();
+      electronProcess && electronProcess.exit && electronProcess.exit();
+      process.exit();
+    }
+
+    // 监听进程退出 然后关闭
     ['SIGINT', 'SIGTERM'].forEach(function(sig) {
       process.on(sig, function() {
-        devServer.close();
-        process.exit();
+        closeAll()
       });
     });
   })
