@@ -47,9 +47,6 @@ const {
   prepareUrls,
 } = require('react-dev-utils/WebpackDevServerUtils');
 
-// react相关工具
-const openBrowser = require('react-dev-utils/openBrowser');
-
 // 获取路径配置
 const paths = require('../config/paths');
 
@@ -173,8 +170,6 @@ checkBrowsers(paths.appPath, isInteractive)
       }
 
       console.log(chalk.cyan('Starting the development server...\n'));
-      // 打开浏览器 不需要 所以去掉了
-      // openBrowser(urls.localUrlForBrowser);
     });
 
     // 这里 我应该去开启一个子进程 然后去跑我的tsc
@@ -189,14 +184,8 @@ checkBrowsers(paths.appPath, isInteractive)
         closeAll();
       }
       // 然后开electron
-      electronProcess = child_process.spawn('electron', ['.'])
-      electronProcess.stdout.on('data', function(data) {
-        console.log('data', data.toString());
-        throw new Error(data.toString())
-      })
-      electronProcess.stderr.on('data', function(data) {
-        console.error('error', data.toString());
-        closeAll();
+      electronProcess = child_process.spawn('electron', ['.'], {
+        stdio: ['pipe', process.stdout, process.stderr],
       })
       electronProcess.on('close', (code) => {
         if(code !== 0) {

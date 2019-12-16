@@ -12,6 +12,7 @@ ipcEvent.init(events);
 ipcEvent.listen();
 
 let createWindow = function () {
+  console.log('start electron')
   mainWindow = new BrowserWindow({
     width: 800,
     height: 600,
