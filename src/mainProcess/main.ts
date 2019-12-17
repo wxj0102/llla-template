@@ -28,10 +28,25 @@ let createWindow = function () {
     }
   })
   mainWindow.webContents.openDevTools()
-  mainWindow.loadURL('http://localhost:3000')
-  mainWindow.on('closed', function () {
-    mainWindow = null
-  })
+  const params = process.argv;
+  let port = null;
+  let host = null;
+  const hostData = params.find(v => /host=/i.test(v));
+  if(hostData) {
+    host = hostData.split('=')[1];
+  }
+  const portData = params.find(v => /port=/i.test(v));
+  if(portData) {
+    port = portData.split('=')[1];
+  }
+  if(host && port) {
+    mainWindow.loadURL(`http://${host}:${port}`)
+    mainWindow.on('closed', function () {
+      mainWindow = null
+    })
+  } else {
+    throw new Error('port or host is error');
+  }
 }
 app.on('ready', createWindow)
 app.on('window-all-closed', () => {

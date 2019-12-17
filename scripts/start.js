@@ -77,9 +77,10 @@ if (!checkRequiredFiles([paths.appHtml, paths.appIndexJs])) {
 // 端口号 10进制 默认3000
 const DEFAULT_PORT = parseInt(process.env.PORT, 10) || 3000;
 
-// host 默认0.0.0.0
+// host 默认127.0.0.1
+// 不知道为什么 0.0.0.0 是禁止访问的 所以改成127.0.0.1了
 // 这个端口号不知道是什么 是刚刚导进去的
-const HOST = process.env.HOST || '0.0.0.0';
+const HOST = process.env.HOST || '127.0.0.1';
 
 // 如果改过host 则发一个警告 不知道是干嘛的....
 if (process.env.HOST) {
@@ -188,7 +189,7 @@ checkBrowsers(paths.appPath, isInteractive)
         closeAll();
       }
       // 然后开electron
-      electronProcess = child_process.spawn('electron', ['.'], {
+      electronProcess = child_process.spawn('electron', ['.', `host=${HOST}`, `port=${port}`], {
         stdio: ['pipe', process.stdout, process.stderr],
       })
       console.log('process.pid', process.pid)

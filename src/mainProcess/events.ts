@@ -41,7 +41,7 @@ export class IpcEvent {
               await this.afterCall(arg, result);
               message.data = result;
               message.code = CodeTypes.Success;
-              message.message = 'succes1';
+              message.message = 'succes';
             } catch (ex) {
               message.message = ex.toString();
               
