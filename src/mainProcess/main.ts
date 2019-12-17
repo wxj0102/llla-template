@@ -29,8 +29,8 @@ let createWindow = function () {
   })
   mainWindow.webContents.openDevTools()
   const params = process.argv;
-  let port = null;
-  let host = null;
+  let port:String = '';
+  let host:String = '';
   const hostData = params.find(v => /host=/i.test(v));
   if(hostData) {
     host = hostData.split('=')[1];

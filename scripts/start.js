@@ -192,8 +192,6 @@ checkBrowsers(paths.appPath, isInteractive)
       electronProcess = child_process.spawn('electron', ['.', `host=${HOST}`, `port=${port}`], {
         stdio: ['pipe', process.stdout, process.stderr],
       })
-      console.log('process.pid', process.pid)
-      console.log('start.js electron.pid', electronProcess.pid);
       electronProcess.on('close', (code) => {
         if(code !== 0) {
           console.log(`electron is exit and code is ${code}`);
