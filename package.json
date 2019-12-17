@@ -2,7 +2,7 @@
   "name": "temp1",
   "version": "0.1.0",
   "private": true,
-  "main": "dist/mainProcess/main.js",
+  "main": "dist/src/mainProcess/main.js",
   "dependencies": {
     "@babel/core": "7.6.0",
     "@svgr/webpack": "4.3.2",

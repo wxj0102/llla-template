@@ -24,7 +24,7 @@ let createWindow = function () {
       plugins: true,
       nodeIntegration: true, // 是否集成 Nodejs
       webSecurity: false,
-      preload: join(__dirname, '../preload.js') // 但预加载的 js 文件内仍可以使用 Nodejs 的 API, 路径是相对于那边的
+      preload: join(__dirname, '../../preload.js') // 但预加载的 js 文件内仍可以使用 Nodejs 的 API, 路径是相对于那边的
     }
   })
   mainWindow.webContents.openDevTools()

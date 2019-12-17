@@ -39,12 +39,9 @@ export class IpcEvent {
               await this.beforeCall(arg);
               const result:object = await item.listener(...arg);
               await this.afterCall(arg, result);
-              console.log('here')
-              console.log('result', result, JSON.stringify(result))
-              // message.data = result;
-              message.data = process.stdout.isTTY;
+              message.data = result;
               message.code = CodeTypes.Success;
-              message.message = 'succes';
+              message.message = 'succes1';
             } catch (ex) {
               message.message = ex.toString();
               

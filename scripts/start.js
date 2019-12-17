@@ -2,6 +2,10 @@
 
 const child_process = require('child_process');
 
+// 拷贝预加载文件
+const preload = require('./preload');
+preload();
+
 // Do this as the first thing so that any code reading it knows the right env.
 // process 是一个node全局变量
 process.env.BABEL_ENV = 'development';
@@ -187,6 +191,8 @@ checkBrowsers(paths.appPath, isInteractive)
       electronProcess = child_process.spawn('electron', ['.'], {
         stdio: ['pipe', process.stdout, process.stderr],
       })
+      console.log('process.pid', process.pid)
+      console.log('start.js electron.pid', electronProcess.pid);
       electronProcess.on('close', (code) => {
         if(code !== 0) {
           console.log(`electron is exit and code is ${code}`);
